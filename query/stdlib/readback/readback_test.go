@@ -167,8 +167,6 @@ func makeTestCases(t *testing.T, pkgs []*ast.Package) {
 
 func testFluxWrite(t testing.TB, l *launcher.TestLauncher, name string, write string, b *platform.Bucket ) {
 
-	//fmt.Println("test case A: ", name )
-
 	req := &query.Request{
 		OrganizationID: l.Org.ID,
 		Compiler:       lang.FluxCompiler{
@@ -184,7 +182,6 @@ func testFluxWrite(t testing.TB, l *launcher.TestLauncher, name string, write st
 		for r.More() {
 			v := r.Next()
 
-			//fmt.Println("e2e results: ", v.Name())
 			if _, ok := results[v.Name()]; !ok {
 				results[v.Name()] = &bytes.Buffer{}
 			}
@@ -262,8 +259,6 @@ func testFlux(t testing.TB, l *launcher.TestLauncher, bs *http.BucketService, na
 		"import \"csv\"" +
 		inData +
 		"csv.from( csv: inData ) |> to( bucket: \"" + bucket + "\", org: \"" + org + "\" )\n"
-
-	// fmt.Println( write )
 
 	read :=
 		"from( bucket: \"" + bucket + "\" ) |> range( start: 0 ) |> yield( name: \"readback\" )\n"
